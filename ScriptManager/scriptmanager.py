@@ -1,7 +1,5 @@
 import time
 import threading
-import queue
-from copy import copy
 from networktables import NetworkTables as nt
 
 import tape3
@@ -14,7 +12,7 @@ nt.initialize(server=ip)
 table = nt.getTable("chooser_data")
 
 
-stop_message = queue.Queue()
+stop_message = [0]
 
 def start_tape():
     tape3.test(stop_message)
@@ -31,7 +29,7 @@ def valueChanged(table, key, value, isNew):
     # 1 stops everything but tape detector
     # 2 stops everything but ball detector
     value = int(value)
-    stop_message.put(value)
+    stop_message[0] = value
     
     if value > 0:
         print("[*]Starting thread: {}".format(value))

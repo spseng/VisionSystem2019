@@ -146,15 +146,18 @@ def find_boxes(contours):
 #from picamera.array import PiRGBArray
 #from picamera import PiCamera
 import time
+import sys
 
 def test(q):
     while True:
-        x = q.get()
+
+        x = q[0]
+
         print("[*]Thread 1 queue:", x)
         
         if x != 1:
             print("[*]Thread 1 exiting")
-            return
+            sys.exit()
         
         time.sleep(1)
 
