@@ -28,10 +28,11 @@ def valueChanged(table, key, value, isNew):
     # 0 stops everything
     # 1 stops everything but tape detector
     # 2 stops everything but ball detector
+    stop_message[0] = 0
     value = int(value)
     stop_message[0] = value
     
-    if value > 0:
+    if value != 0:
         print("[*]Starting thread: {}".format(value))
         t = threading.Thread(target=target_list[value])
         t.start()
