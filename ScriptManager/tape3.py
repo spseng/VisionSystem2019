@@ -1,3 +1,4 @@
+import sys
 import cv2
 import numpy as np
 import math
@@ -118,6 +119,8 @@ def midpoint(box_list):
 
 #Defines bounding boxes from contours
 def find_boxes(contours):
+
+    box_list=[]
     t = 0
         
     for cnt in contours:
@@ -143,37 +146,33 @@ def find_boxes(contours):
 
     return box_list
 
-#from picamera.array import PiRGBArray
-#from picamera import PiCamera
-import time
-import sys
-
-def test(q):
-    while True:
-
-        x = q[0]
-
-        print("[*]Thread 1 queue:", x)
+def connection(stop_message):
         
-        if x != 1:
-            print("[*]Thread 1 exiting")
-            sys.exit()
+    x = stop_message[0]
         
-        time.sleep(1)
+    print("[*]Thread 1 queue:", x)
+        
+    if x != 1:
+        print("[*]Thread 1 exiting")
+        sys.exit()
 
-def main(message=''):
-    BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')
 
-    cam = PiCamera()
-    cam.resolution = (640, 480)
-    cam.framerate = 32
-    rawCap = PiRGBArray(cam, size=(640, 480))
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
-    g = GripPipeline()
+BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')
 
-    #Minimum area of a bounding box
-    size_threshold = 4000
+cam = PiCamera()
+cam.resolution = (640, 480)
+cam.framerate = 32
+rawCap = PiRGBArray(cam, size=(640, 480))
 
+g = GripPipeline()
+
+#Minimum area of a bounding box
+size_threshold = 4000
+
+def main(stop_message):
 
     for frame in cam.capture_continuous(rawCap, format="bgr", use_video_port=True):
 
@@ -222,10 +221,12 @@ def main(message=''):
 
         if box_list != []:
             print("************************")
-        
+
         cv2.imshow('frame', frame)
 
         rawCap.truncate(0)
+        
+        connection(stop_message)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
