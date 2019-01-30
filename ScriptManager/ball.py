@@ -168,16 +168,6 @@ class GripPipeline:
                 output.append(tmp)
         return output
 
-def connection(stop_message):
-    
-    x = stop_message[0]
-    
-    print("[*]Thread 2 queue:", x)
-        
-    if x != 1:
-        print("[*]Thread 2 exiting")
-        sys.exit()
-
 
 BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')
 
@@ -189,6 +179,17 @@ import io
 grip = GripPipeline()
 
 def main (stop_message):
+    
+    def connection(stop_message):
+    
+        x = stop_message[0]
+        
+        print("[*]Thread 2 queue:", x)
+        
+        if x != 2:
+            print("[*]Thread 2 exiting")
+            cam.close()
+            sys.exit()
     
     cam = PiCamera()
     cam.resolution = (640,480)

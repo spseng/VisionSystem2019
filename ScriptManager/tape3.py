@@ -146,16 +146,6 @@ def find_boxes(contours):
 
     return box_list
 
-def connection(stop_message):
-        
-    x = stop_message[0]
-        
-    print("[*]Thread 1 queue:", x)
-        
-    if x != 1:
-        print("[*]Thread 1 exiting")
-        sys.exit()
-
 
 from picamera.array import PiRGBArray
 from picamera import PiCamera
@@ -168,6 +158,17 @@ g = GripPipeline()
 size_threshold = 4000
 
 def main(stop_message):
+    
+    def connection(stop_message):
+    
+        x = stop_message[0]
+        
+        print("[*]Thread 1 queue:", x)
+        
+        if x != 1:
+            print("[*]Thread 1 exiting")
+            cam.close()
+            sys.exit()
     
     cam = PiCamera()
     cam.resolution = (640, 480)
