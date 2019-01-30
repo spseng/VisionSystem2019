@@ -33,6 +33,8 @@ def valueChanged(table, key, value, isNew):
     stop_message[0] = value
     
     if value != 0:
+        time.sleep(1)
+        
         print("[*]Starting thread: {}".format(value))
         t = threading.Thread(target=target_list[value])
         t.start()
