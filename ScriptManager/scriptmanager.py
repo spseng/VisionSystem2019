@@ -4,7 +4,7 @@ from networktables import NetworkTables as nt
 
 import tape3
 import thread_example
-#import ball
+import ball
 
 ip = "10.31.51.43"
 
