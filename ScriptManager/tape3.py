@@ -162,17 +162,17 @@ from picamera import PiCamera
 
 BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')
 
-cam = PiCamera()
-cam.resolution = (640, 480)
-cam.framerate = 32
-rawCap = PiRGBArray(cam, size=(640, 480))
-
 g = GripPipeline()
 
 #Minimum area of a bounding box
 size_threshold = 4000
 
 def main(stop_message):
+    
+    cam = PiCamera()
+    cam.resolution = (640, 480)
+    cam.framerate = 32
+    rawCap = PiRGBArray(cam, size=(640, 480))
 
     for frame in cam.capture_continuous(rawCap, format="bgr", use_video_port=True):
 
