@@ -149,6 +149,9 @@ def find_boxes(contours):
 
 from picamera.array import PiRGBArray
 from picamera import PiCamera
+from table import Table
+
+table = Table()
 
 BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')
 
@@ -217,7 +220,13 @@ def main(stop_message):
         if mid != 0:
             
             cv2.circle(frame, (mid[0], mid[1]), 5, (0, 0, 255), -1)
+            table.updateNumber(mid)
             print("Midpoint:", mid)
+        
+        else:
+        
+            table.updateNumber("B00B13S")
+
         
 
         if box_list != []:

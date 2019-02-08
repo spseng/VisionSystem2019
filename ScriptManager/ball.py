@@ -173,10 +173,13 @@ BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filt
 
 from picamera import PiCamera
 from picamera.array import PiRGBArray
-
+from table import Table
 import io
 
+table = Table()
+
 grip = GripPipeline()
+
 
 def main (stop_message):
     
@@ -229,10 +232,16 @@ def main (stop_message):
             sideY = ((y1-y2)/2)+y2
             cv2.circle(grip.mask_output,(int(sideX),int(sideY)),50,(255,255,255),2)
             print("Ball found")
+        
+            table.updateNumber((sideX, sideY))
+        
         except Exception as e:
             print(e)
             print("--------------")
             print("Ball not found")
+        
+            table.updateNumber("B00B13S")
+        
         cv2.imshow('frame',grip.mask_output)
         rawCap.truncate(0)
     ##    xraw.seek(0)
