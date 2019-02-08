@@ -225,7 +225,7 @@ def main(stop_message):
         
         else:
         
-            table.updateNumber("B00B13S")
+            table.updateNumber("BOOBIES")
 
         
 

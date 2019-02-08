@@ -240,7 +240,7 @@ def main (stop_message):
             print("--------------")
             print("Ball not found")
         
-            table.updateNumber("B00B13S")
+            table.updateNumber("BOOBIES")
         
         cv2.imshow('frame',grip.mask_output)
         rawCap.truncate(0)
