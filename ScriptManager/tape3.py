@@ -151,7 +151,7 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from table import Table
 
-table = Table()
+table = Table(0)
 
 BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')
 

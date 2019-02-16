@@ -176,7 +176,7 @@ from picamera.array import PiRGBArray
 from table import Table
 import io
 
-table = Table()
+table = Table(1)
 
 grip = GripPipeline()
 
