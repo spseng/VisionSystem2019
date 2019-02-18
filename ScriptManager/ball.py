@@ -176,7 +176,7 @@ from picamera.array import PiRGBArray
 from table import Table
 import io
 
-table = Table()
+table = Table(1)
 
 grip = GripPipeline()
 
@@ -230,19 +230,21 @@ def main (stop_message):
             cv2.rectangle(grip.mask_output,(x1,y1),(x2,y2),(255,255,255),2)
             sideX = ((x1-x2)/2)+x2
             sideY = ((y1-y2)/2)+y2
+            width = x2-x1
             cv2.circle(grip.mask_output,(int(sideX),int(sideY)),50,(255,255,255),2)
             print("Ball found")
-        
+
+
             table.updateNumber((sideX, sideY))
-        
+            table.updateNumber(width, key=1)
         except Exception as e:
             print(e)
             print("--------------")
             print("Ball not found")
         
-            table.updateNumber("B00B13S")
-        
-        cv2.imshow('frame',grip.mask_output)
+            table.updateNumber("B")
+            table.updateNumber("B", key=1)
+
         rawCap.truncate(0)
     ##    xraw.seek(0)
     

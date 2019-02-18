@@ -1,6 +1,7 @@
 from networktables import NetworkTables as nt
 
 table_list = ["tape_data", "ball_data"]
+key_list = ["midpoint", "width"]
 
 class Table:
     
@@ -8,11 +9,11 @@ class Table:
         nt.initialize(server='10.31.51.43')
         self.table = nt.getTable(table_list[table_number])
 
-    def updateNumber(self, midpoint):
+    def updateNumber(self, midpoint, key = 0):
         table = self.table
     
         try:
-            table.putString('midpoint', str(midpoint))
+            table.putString(key_list[key],str(midpoint))
         except Exception as e:
             print(e)
 

@@ -113,7 +113,9 @@ def midpoint(box_list):
     else:
         y += y1
 
-    return (round(x,2),round(y2))
+    midx, midy = int(x), int(y)
+
+    return (midx, midy)
 
 #Defines bounding boxes from contours
 def find_boxes(contours):
@@ -149,6 +151,7 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from table import Table
 
+
 table = Table(0)
 
 BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filter')
@@ -156,25 +159,14 @@ BlurType = Enum('BlurType', 'Box_Blur Gaussian_Blur Median_Filter Bilateral_Filt
 g = GripPipeline()
 
 #Minimum area of a bounding box
-size_threshold = 250
+size_threshold = 1000
 
-def main(stop_message):
-    
-    def connection(stop_message):
-    
-        x = stop_message[0]
-        
-        print("[*]Thread 1 queue:", x)
-        
-        if x != 1:
-            print("[*]Thread 1 exiting")
-            cam.close()
-            sys.exit()
+def main():
     
     cam = PiCamera()
     cam.resolution = (640, 480)
     cam.framerate = 32
-    cam.exposure_mode = 'off'
+    cam.exposure_mode = "off"
     rawCap = PiRGBArray(cam, size=(640, 480))
 
     for frame in cam.capture_continuous(rawCap, format="bgr", use_video_port=True):
@@ -182,6 +174,7 @@ def main(stop_message):
         box_list=[]
 
         frame = frame.array
+        frame2 = frame
         #Runs the frame through the grip pipeline
         g.process(frame)
         threshed_frame = g.hsv_threshold_output
@@ -211,24 +204,21 @@ def main(stop_message):
             print("|----------|")
             
             #Draws bounding boxes
-            frame = cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
+            frame = cv2.drawContours(threshed_frame, [box], 0, (255, 255, 255), 2)
 
         mid = midpoint(box_list)
 
         #Draws midpoint if one exists
         if mid != 0:
             
-            cv2.circle(frame, (int(mid[0]),int(mid[1])), 5, (0, 0, 255), -1)
-            table.updateNumber((mid[0], mid[1]))
-            #table.updateNumber(-box_list[0][1][0], key=1)
-            table.updateNumber(-50, key=1)
- 
+            cv2.circle(threshed_frame, (mid[0], mid[1]), 5, (255, 255, 255), -1)
+            #table.updateNumber(mid)
             print("Midpoint:", mid)
-            
-        else:
         
-            table.updateNumber("B")
-            table.updateNumber("B", key=1)
+        #else:
+        
+            #table.updateNumber("B")
+
         
 
         if box_list != []:
@@ -237,10 +227,15 @@ def main(stop_message):
 
         rawCap.truncate(0)
         
-        connection(stop_message)
+        cv2.imshow("frame", threshed_frame)
+        cv2.imshow("original", frame2)
+        
+        #connection(stop_message)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+        
+main()
 
 
 
