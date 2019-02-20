@@ -3,10 +3,10 @@ import threading
 from networktables import NetworkTables as nt
 
 import tape3
-import thread_example
 import ball
+import thread_example
 
-ip = "10.31.51.43"
+ip = "10.15.12.2"
 
 nt.initialize(server=ip)
 table = nt.getTable("chooser_data")
@@ -34,7 +34,7 @@ def valueChanged(table, key, value, isNew):
     
     if value != 0:
         time.sleep(1)
-        
+
         print("[*]Starting thread: {}".format(value))
         t = threading.Thread(target=target_list[value])
         t.start()
